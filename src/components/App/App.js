@@ -17,7 +17,8 @@ class App extends React.Component {
 
 		this.state = {
 			searchResults: []
-			, trackURIs: []
+			, playlistName: 'playlistName'
+			, playlistTracks: []
 		};
 	}
 
@@ -25,10 +26,17 @@ class App extends React.Component {
 		if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
 			return;
 		}
+		this.state.playlistTracks.push(track);
+    	this.setState( {
+    		playlistTracks: this.state.playlistTracks
+    	});
 	}
 
 	removeTrack(track) {
-		this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)
+		const updatedPlaylist = this.state.playlistTracks.filter(savedTrack => savedTrack.id !== track.id);
+    	this.setState( {
+    		playlistTracks: updatedPlaylist
+    	});
 	}
 
 	updatePlaylistName(name) {
@@ -36,12 +44,15 @@ class App extends React.Component {
 	}
 
 	savePlaylist(){
-		trackURIs = this.props.playlistTracks;
-	}
+		const trackURIs = this.state.playlistTracks.map(track => track.uri);
+    	Spotify.savePlaylist(this.state.playlistName, trackURIs);
+    }
 
 	search(searchTerm){
 		Spotify.search(searchTerm).then(searchResults => {
-			this.setState({searchResults: searchResults});
+			this.setState( {
+				searchResults: searchResults
+			});
 		});
 	}
 

@@ -1,4 +1,4 @@
-const userToken = '';
+let userToken = '';
 const clientID = '3f19930ed1354091926d98e6dc458415';
 const redirectURI = 'http://localhost:3000/';
 
@@ -38,9 +38,53 @@ const Spotify = {
 	}
 
 	, savePlaylist: (playlistName, trackURIs) => {
+		const accessToken = Spotify.getAccessToken();
+		const userID = '';
+		const playlistID ='';
+
 		if (!playlistName || !trackURIs) {
-			return
+			return;
 		}
+
+		return fetch('https://api.spotify.com/v1/me', {
+			headers: {
+				Authoriation: `Bearer ${accessToken}`
+			}
+		}).then(response => {
+			return response.json();
+		}).then(jsonRespone => {
+			userID = jsonResponse.id;
+
+			return fetch(`/v1/users/${userID}/playlists`, {
+				method: 'POST'
+				, headers: {
+						Authorization: `Bearer ${accessToken}`
+				}
+				, body: {
+					JSON.stringify({
+						name: playlistName
+					})
+				}
+			}).then( response => {
+				return response.json();
+			}).then( jsonResponse => {
+				playlistID = jsonResponse.id;
+
+				return fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks`, {
+					method: 'POST'
+					, headers: {
+						Authorization: `Bearer ${accessToken}`
+					}
+					, body: JSON.stringify({
+						uris: trackURIs
+					})
+				}).then(response => {
+					return response.json();
+				}).then(jsonResponse => {
+					playlistID = jsonResponse.id;
+				});
+			});
+		});
 	}
 };
 

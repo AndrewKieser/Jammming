@@ -4,10 +4,6 @@ import Track from '../Track/Track';
 
 class Tracklist extends React.Component {
 
-	addTrack() {
-		
-	}
-
 	render() {
 		return (
 			<div class="TrackList">
