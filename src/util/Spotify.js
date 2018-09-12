@@ -70,22 +70,22 @@ const Spotify = {
 					, body: JSON.stringify({
 						name: playlistName
 					})
-				}).then( response => {
-					response.json();
-				}).then( jsonResponse => {
-					let playlistID = jsonResponse.id;
+			}).then( response => {
+				response.json();
+			}).then( jsonResponse => {
+				let playlistID = jsonResponse.id;
 
-					return fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks`, {
-							method: 'POST'
-							, headers: {
-								Authorization: `Bearer ${accessToken}`
-							}
-							, body: JSON.stringify({
-								uris: trackURIs
-							})
-					})
+				return fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks`, {
+						method: 'POST'
+						, headers: {
+							Authorization: `Bearer ${accessToken}`
+						}
+						, body: JSON.stringify({
+							uris: trackURIs
+						})
 				});
 			});
+		});
 	}
 };
 
