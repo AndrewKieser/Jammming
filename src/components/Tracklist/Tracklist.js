@@ -14,7 +14,7 @@ class Tracklist extends React.Component {
 							name={track.name}
 							artist={track.artist}
 							album={track.album}
-							preview={track.preview}
+							preview_url={track.preview_url}
 							key={track.id}
 							onAdd={this.props.onAdd}
 							onRemove={this.props.onRemove}
