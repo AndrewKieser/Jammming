@@ -19,6 +19,9 @@ class SearchBar extends React.Component {
 	}
 
 	handleTermChange(event) {
+		event.preventDefault();
+		let term = event.target.value;
+		sessionStorage.setItem('term', term);
 		this.setState({
 			term: event.target.value
 		})
@@ -29,13 +32,23 @@ class SearchBar extends React.Component {
 			this.search();
  	}
 
+ 	componentWillMount() {
+        let term = sessionStorage.getItem('term'); 
+        if (term) {
+            this.setState({ 
+            	term: term
+            })
+        }
+    }
+
 	render() {
 		return (
 		<div className="SearchBar">
 			<input
 				placeholder="Enter A Song, Album, or Artist"
 				onChange={this.handleTermChange}
-				onKeyDown={this.handleEnterKey} />
+				onKeyDown={this.handleEnterKey}
+				value={this.state.term} />
 			<a onClick={this.search} >SEARCH</a>
 		</div>
 	);
