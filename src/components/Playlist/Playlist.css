@@ -42,6 +42,11 @@
     background: transparent;
 }
 
+a {
+  text-decoration: none;
+  color: white;
+}
+
 @media only screen and (max-width: 1020px) {
   .Playlist {
     width: 90%;
